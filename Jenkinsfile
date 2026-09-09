@@ -22,4 +22,27 @@ pipeline {
             }
         }
     }
+
+    post {
+        success {
+            script {
+                sh '''
+                    curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{"content": "✅ **CI/CD Build Sukses!** Backend WaysHub berhasil di-deploy otomatis ke server."}' \
+                    https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq
+                '''
+            }
+        }
+        failure {
+            script {
+                sh '''
+                    curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{"content": "❌ **CI/CD Build Gagal!** Silakan cek console Jenkins untuk detail errornya."}' \
+                    https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq
+                '''
+            }
+        }
+    }
 }
