@@ -29,7 +29,13 @@ pipeline {
                 sh '''
                     curl -H "Content-Type: application/json" \
                     -X POST \
-                    -d '{"content": "✅ **CI/CD Build Sukses!** Backend WaysHub berhasil di-deploy otomatis ke server."}' \
+                    -d '{
+                      "embeds": [{
+                        "title": "Jenkins Build SUCCESS",
+                        "description": "wayshub-backend berhasil di-build dan deploy.",
+                        "color": 3066993
+                      }]
+                    }' \
                     https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq
                 '''
             }
@@ -39,7 +45,13 @@ pipeline {
                 sh '''
                     curl -H "Content-Type: application/json" \
                     -X POST \
-                    -d '{"content": "❌ **CI/CD Build Gagal!** Silakan cek console Jenkins untuk detail errornya."}' \
+                    -d '{
+                      "embeds": [{
+                        "title": "Jenkins Build FAILED",
+                        "description": "wayshub-backend gagal di-build atau deploy. Cek console Jenkins!",
+                        "color": 15158332
+                      }]
+                    }' \
                     https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq
                 '''
             }
