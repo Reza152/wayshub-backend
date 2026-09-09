@@ -23,7 +23,7 @@ pipeline {
         }
     }
 
-post {
+    post {
         success {
             discordSend(
                 webhookURL: 'https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq',
@@ -39,3 +39,4 @@ post {
             )
         }
     }
+}
