@@ -10,7 +10,7 @@ pipeline {
 
         stage('Deploy Backend to Staging') {
             steps {
-                withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key-credential-id', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
+                withCredentials([sshUserPrivateKey(credentialsId: 'wayshub-ssh-key', keyFileVariable: 'SSH_KEY', usernameVariable: 'SSH_USER')]) {
                     sh '''
                         ssh -o StrictHostKeyChecking=no -i $SSH_KEY $SSH_USER@172.31.15.141 \
                         mkdir -p /home/reza/staging-wayshub/wayshub-backend && \
