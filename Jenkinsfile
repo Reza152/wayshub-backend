@@ -25,18 +25,25 @@ pipeline {
 
     post {
         success {
-            discordSend(
-                webhookURL: 'https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq',
-                result: 'SUCCESS',
-                description: 'wayshub-backend berhasil di-build dan deploy.'
-            )
+            // Panggil webhook pakai credentials Jenkins, bukan ditulis mentah
+            withCredentials([string(credentialsId: 'DISCORD_WEBHOOK_URL', variable: 'WEBHOOK_URL')]) {
+                sh '''
+                    curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{"content": "✅ wayshub-backend berhasil di-build dan deploy."}' \
+                    $WEBHOOK_URL
+                '''
+            }
         }
         failure {
-            discordSend(
-                webhookURL: 'https://discord.com/api/webhooks/1547146694569893911/ktPHbF2-M16wIgvGbQclZgIiR23v5p3D9aH5Mu_gJggeOBoG9UWRZhSsdwMAN3LXt4Eq',
-                result: 'FAILURE',
-                description: 'wayshub-backend gagal di-build atau deploy!'
-            )
+            withCredentials([string(credentialsId: 'DISCORD_WEBHOOK_URL', variable: 'WEBHOOK_URL')]) {
+                sh '''
+                    curl -H "Content-Type: application/json" \
+                    -X POST \
+                    -d '{"content": "❌ wayshub-backend gagal di-build atau deploy!"}' \
+                    $WEBHOOK_URL
+                '''
+            }
         }
     }
 }
